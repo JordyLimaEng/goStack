@@ -6,17 +6,14 @@ const server = express();
 // Route params = /users/1
 // Request body = { "nome": "Jordy", "email": "jordylima51@gmail.com"}
 
+const users = ['Diego', 'Rafael', 'Flávio']
 
 // localhost:3000/teste
-server.get('/users/:id', (req, res) => { //:id para especificar que é um route params
-  //console.log("TESTE")
-  //return res.send('Fala Mundo');
-  // return res.json({message:'Fala Mundo'})
-
-  const { id } = req.params //chaves aqui serve de desestruturação, já pega o id do params direto
-
-  const nome = req.query.nome
-  return res.json({message: `Buscando usuario ${id}`})
+server.get('/users/:index', (req, res) => { //:id para especificar que é um route params
+  
+  const { index } = req.params //chaves aqui serve de desestruturação, já pega o id do params direto
+  
+  return res.json(users[index])
 });
 
 server.listen(3000); 

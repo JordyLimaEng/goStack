@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './App.css';
 
 function App() {
@@ -9,10 +9,10 @@ function App() {
   ]);
   const [newTech, setNewTech] = useState('');
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     setTech([...tech, newTech]);
     setNewTech('');
-  }
+  },[newTech,tech]);
 
   //monitora um determinado objeto e quando há alteração executa o comando explicitado
   useEffect(() => {

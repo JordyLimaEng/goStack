@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -14,6 +13,19 @@ function App() {
     setTech([...tech, newTech]);
     setNewTech('');
   }
+
+  //monitora um determinado objeto e quando há alteração executa o comando explicitado
+  useEffect(()=>{
+    localStorage.setItem('tech',JSON.stringify(tech));
+  }, [tech]);
+
+  useEffect(()=>{
+    const storageTech = localStorage.getItem('tech');
+
+    if(storageTech){
+      setTech(JSON.parse(storageTech));
+    }
+  }, [])
 
   return (
     <>

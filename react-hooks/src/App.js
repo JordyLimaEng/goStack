@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
 function App() {
@@ -15,17 +15,20 @@ function App() {
   }
 
   //monitora um determinado objeto e quando há alteração executa o comando explicitado
-  useEffect(()=>{
-    localStorage.setItem('tech',JSON.stringify(tech));
+  useEffect(() => {
+    localStorage.setItem('tech', JSON.stringify(tech));
   }, [tech]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const storageTech = localStorage.getItem('tech');
 
-    if(storageTech){
+    if (storageTech) {
       setTech(JSON.parse(storageTech));
     }
   }, [])
+
+  //só executa quando os valores mudam, para não exagerar nas chamadas
+  const techSize = useMemo(() => tech.length, [tech]);
 
   return (
     <>
@@ -34,7 +37,9 @@ function App() {
           <li key={t}>{t}</li>
         )}
       </ul>
-      <input type="text" value={newTech} onChange={e=>setNewTech(e.target.value)}/>
+      <strong>Você tem {techSize} tecnologias</strong>
+      <br />
+      <input type="text" value={newTech} onChange={e => setNewTech(e.target.value)} />
       <button type="button" onClick={handleAdd}>Add tech</button>
     </>
   );

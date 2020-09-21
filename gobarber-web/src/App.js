@@ -1,8 +1,16 @@
 import React from 'react';
+import { Router } from 'react-router-dom'
+
+import './config/ReactotronConfig';
+
+import Routes from './routes';
+import History from "./services/history";
 
 function App() {
   return (
-    <h1>Go Barber Web</h1>
+    <Router history = {History}>
+      <Routes />
+    </Router>
   );
 }
 

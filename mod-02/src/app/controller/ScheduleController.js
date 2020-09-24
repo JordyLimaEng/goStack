@@ -1,37 +1,39 @@
 import Appointment from '../model/Appointment'
 import User from '../model/User'
-import {startOfDay, endOfDay, parseISO} from 'date-fns'
-import {Op} from 'sequelize'
+import { startOfDay, endOfDay, parseISO } from 'date-fns'
+import { Op } from 'sequelize'
 
-class ScheduleController{
-  async index(req, res){
+class ScheduleController {
+  async index(req, res) {
     const checkUserProvider = await User.findOne({
-      where: {id: req.userId, provider: true}
+      where: { id: req.userId, provider: true }
     })
 
-    if(!checkUserProvider){
-      return res.status(401).json({error: "User is not a provider"})
+    if (!checkUserProvider) {
+      return res.status(401).json({ error: "User is not a provider" })
     }
 
-    const {date} = req.query
+    const { date } = req.query
+    console.log("          ->  " + req.query.date + "  <-         ")
     const parsedDate = parseISO(date);
+    console.log("          ->  " + parsedDate + "  <-         ")
 
     const appointments = await Appointment.findAll({
-      where:{
+      where: {
         provider_id: req.userId,
         canceled_at: null,
         date: {
-          [Op.between] : [startOfDay(parsedDate), endOfDay(parsedDate)]
+          [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)]
         },
       },
-      include:[
+      include: [
         {
           model: User,
           as: 'user',
           attributes: ['name'],
         }
       ],
-      order:['date'],
+      order: ['date'],
     });
 
     return res.json(appointments);

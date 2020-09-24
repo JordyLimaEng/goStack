@@ -54,7 +54,7 @@ function Notifications() {
       <Badge onClick={handleToggleVisible} hasUnread={hasUnread}>
         <MdNotifications color='#7159c1' size={20} />
       </Badge>
-
+      
       <NotificationList visible={visible}>
         <Scroll>
           {notifications.map(notification => (
